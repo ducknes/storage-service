@@ -1,0 +1,11 @@
+{
+    "port": 80,
+    "databases" : {
+        "need_mocks" : false,
+        "mongo": {
+            "connection" : "mongodb://mongo:ADzBxufCtjtoLgLEKlpAkeaXcYNPYGft@junction.proxy.rlwy.net:38384",
+            "database": "storage-service",
+            "collection" : "products"
+        }
+    }
+}

@@ -1,0 +1,212 @@
+definitions:
+  domain.Product:
+    properties:
+      brandName:
+        description: Бренд кроссовок
+        type: string
+      description:
+        description: Описание модели кроссовка
+        type: string
+      factoryName:
+        description: Завод изготовитель
+        type: string
+      id:
+        description: Id продукта
+        type: integer
+      images:
+        description: Картинки
+        items:
+          type: string
+        type: array
+      items:
+        description: Варианты кроссовок
+        items:
+          $ref: '#/definitions/domain.ProductItem'
+        type: array
+      materials:
+        description: Материалы изготовления
+        items:
+          type: string
+        type: array
+      name:
+        description: Название модели кроссовка
+        type: string
+      price:
+        description: Цена продукта
+        type: number
+    type: object
+  domain.ProductItem:
+    properties:
+      color:
+        description: Цвет
+        type: string
+      size:
+        description: Размер
+        type: integer
+      stock_count:
+        description: Кол-во на складе
+        type: integer
+      weight:
+        description: Вес
+        type: number
+    type: object
+info:
+  contact: {}
+  description: Сервис управления продукцией на складе для goat-logistics
+  title: storage-service
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      description: Возвращает простой ответ "pong" для проверки доступности сервера.
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: pong
+          schema:
+            type: string
+      summary: Проверка состояния сервера
+      tags:
+      - Системные
+  /product:
+    get:
+      description: Возвращает данные о продукте по его идентификатору. Пользователь
+        должен быть авторизован.
+      parameters:
+      - description: Идентификатор продукта
+        in: query
+        name: product_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Информация о продукте успешно получена
+          schema:
+            $ref: '#/definitions/domain.Product'
+        "400":
+          description: Ошибка запроса или получения информации о продукте
+        "401":
+          description: Пользователь не авторизован
+      security:
+      - ApiKeyAuth: []
+      summary: Получение информации о продукте
+      tags:
+      - Продукты
+  /products:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет продукты из системы по списку идентификаторов. Пользователь
+        должен быть авторизован.
+      parameters:
+      - description: Список идентификаторов продуктов для удаления
+        in: body
+        name: productIds
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          description: Продукты успешно удалены
+        "400":
+          description: Ошибка в запросе или при удалении продуктов
+        "401":
+          description: Пользователь не авторизован
+      security:
+      - ApiKeyAuth: []
+      summary: Удаление продуктов
+      tags:
+      - Продукты
+    get:
+      description: Возвращает список продуктов с возможностью пагинации. Пользователь
+        должен быть авторизован.
+      parameters:
+      - default: 10
+        description: Количество продуктов для выборки
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Курсор для пагинации
+        in: query
+        name: cursor
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список продуктов успешно получен
+          schema:
+            items:
+              $ref: '#/definitions/domain.Product'
+            type: array
+        "400":
+          description: Ошибка запроса или получения списка продуктов
+        "401":
+          description: Пользователь не авторизован
+      security:
+      - ApiKeyAuth: []
+      summary: Получение списка продуктов
+      tags:
+      - Продукты
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новые продукты в систему. Пользователь должен быть авторизован.
+      parameters:
+      - description: Список продуктов для добавления
+        in: body
+        name: products
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/domain.Product'
+          type: array
+      responses:
+        "200":
+          description: Продукты успешно добавлены
+        "400":
+          description: Ошибка в запросе или при добавлении продуктов
+        "401":
+          description: Пользователь не авторизован
+      security:
+      - ApiKeyAuth: []
+      summary: Добавление продуктов
+      tags:
+      - Продукты
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о продуктах. Пользователь должен быть авторизован.
+      parameters:
+      - description: Список продуктов для обновления
+        in: body
+        name: products
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/domain.Product'
+          type: array
+      responses:
+        "200":
+          description: Продукты успешно обновлены
+        "400":
+          description: Ошибка в запросе или при обновлении продуктов
+        "401":
+          description: Пользователь не авторизован
+      security:
+      - ApiKeyAuth: []
+      summary: Обновление продуктов
+      tags:
+      - Продукты
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
