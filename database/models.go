@@ -3,7 +3,7 @@ package database
 import "github.com/shopspring/decimal"
 
 type Product struct {
-	Id          int             `bson:"id"`
+	Id          int             `bson:"_id"`
 	BrandName   string          `bson:"brand_id"`
 	FactoryName string          `bson:"factory_id"`
 	Name        string          `bson:"name"`

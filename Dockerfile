@@ -3,8 +3,6 @@ WORKDIR /build
 COPY . .
 
 RUN mkdir out && \
-    mkdir out/database && \
-    mv database/migrations/ out/database/migrations/ && \
     mv .config/ out/
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o out/app
