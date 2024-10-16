@@ -44,7 +44,7 @@ func (s *StorageServiceImpl) GetProduct(ctx storagecontext.StorageContext, produ
 }
 
 func (s *StorageServiceImpl) SaveProducts(ctx storagecontext.StorageContext, products []domain.Product) error {
-	return s.storageRepository.AddProducts(ctx, mappings.ToAny(products))
+	return s.storageRepository.AddProducts(ctx, mappings.ToDbProducts(products))
 }
 
 func (s *StorageServiceImpl) UpdateProducts(ctx storagecontext.StorageContext, products []domain.Product) error {

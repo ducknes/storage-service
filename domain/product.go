@@ -3,7 +3,7 @@ package domain
 import "github.com/shopspring/decimal"
 
 type Product struct {
-	Id          int             `json:"id"`           // Id продукта
+	Id          string          `json:"id"`           // Id продукта
 	BrandName   string          `json:"brand_name"`   // Бренд кроссовок
 	FactoryName string          `json:"factory_name"` // Завод изготовитель
 	Name        string          `json:"name"`         // Название модели кроссовка

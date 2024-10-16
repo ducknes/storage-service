@@ -14,7 +14,7 @@ import (
 type StorageRepository interface {
 	GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) ([]Product, error)
 	GetProduct(ctx storagecontext.StorageContext, productId string) (Product, error)
-	AddProducts(ctx storagecontext.StorageContext, products []any) error
+	AddProducts(ctx storagecontext.StorageContext, products []Product) error
 	UpdateProducts(ctx storagecontext.StorageContext, products []Product) error
 	DeleteProducts(ctx storagecontext.StorageContext, productIds []string) error
 
@@ -69,9 +69,9 @@ func (r *StorageRepositoryImpl) GetProduct(ctx storagecontext.StorageContext, pr
 	return product, collection.FindOne(ctx.Ctx(), filter).Decode(&product)
 }
 
-func (r *StorageRepositoryImpl) AddProducts(ctx storagecontext.StorageContext, products []any) error {
+func (r *StorageRepositoryImpl) AddProducts(ctx storagecontext.StorageContext, products []Product) error {
 	collection := r.mongoClient.Database(r.database).Collection(r.collection)
-	_, err := collection.InsertMany(ctx.Ctx(), products)
+	_, err := collection.InsertMany(ctx.Ctx(), toAny(ToInsertItems(products)))
 	return err
 }
 
@@ -115,12 +115,19 @@ func (r *StorageRepositoryImpl) TestData() error {
 		return err
 	}
 
-	var products []any
+	var products []Product
 	if err = json.Unmarshal(file, &products); err != nil {
 		return err
 	}
 
 	collection := r.mongoClient.Database(r.database).Collection(r.collection)
-	_, err = collection.InsertMany(context.Background(), products)
+	_, err = collection.InsertMany(context.Background(), toAny(ToInsertItems(products)))
 	return err
+}
+
+func toAny[T any](any []T) (result []any) {
+	for _, v := range any {
+		result = append(result, v)
+	}
+	return result
 }

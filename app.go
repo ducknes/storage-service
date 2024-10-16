@@ -81,7 +81,10 @@ func (a *App) initRepositories() {
 	if settings.GetEnv() == settings.LocalEnv() && a.config.Databases.NeedMocks {
 		if err := a.storageRepository.TestData(); err != nil {
 			a.logger.Error(err.Error())
+			return
 		}
+
+		a.logger.Info("тестовые данные успешно добавлены")
 	}
 }
 

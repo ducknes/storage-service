@@ -2,6 +2,7 @@ package mappings
 
 import (
 	"github.com/samber/lo"
+	"github.com/shopspring/decimal"
 	"storage-service/database"
 	"storage-service/domain"
 )
@@ -13,7 +14,7 @@ func ToDbProduct(info domain.Product) database.Product {
 		FactoryName: info.FactoryName,
 		Name:        info.Name,
 		Description: info.Description,
-		Price:       info.Price,
+		Price:       info.Price.InexactFloat64(),
 		Items:       ToDbProductItems(info.Items),
 		Materials:   info.Materials,
 		Images:      info.Images,
@@ -27,7 +28,7 @@ func ToDomainProduct(info database.Product) domain.Product {
 		FactoryName: info.FactoryName,
 		Name:        info.Name,
 		Description: info.Description,
-		Price:       info.Price,
+		Price:       decimal.NewFromFloat(info.Price),
 		Items:       ToDomainProductItems(info.Items),
 		Materials:   info.Materials,
 		Images:      info.Images,
@@ -50,7 +51,7 @@ func ToDbProductItem(item domain.ProductItem) database.ProductItem {
 	return database.ProductItem{
 		StockCount: item.StockCount,
 		Size:       item.Size,
-		Weight:     item.Weight,
+		Weight:     item.Weight.InexactFloat64(),
 		Color:      item.Color,
 	}
 }
@@ -59,7 +60,7 @@ func ToDomainProductItem(item database.ProductItem) domain.ProductItem {
 	return domain.ProductItem{
 		StockCount: item.StockCount,
 		Size:       item.Size,
-		Weight:     item.Weight,
+		Weight:     decimal.NewFromFloat(item.Weight),
 		Color:      item.Color,
 	}
 }

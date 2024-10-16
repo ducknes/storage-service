@@ -21,7 +21,6 @@ import (
 // @Failure 400 "Ошибка запроса или получения списка продуктов"
 // @Failure 401 "Пользователь не авторизован"
 // @Router /products [get]
-// @Security ApiKeyAuth
 func GetProductsHandler(storageService service.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		storageCtx := storagecontext.New(r)

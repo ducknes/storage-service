@@ -77,11 +77,6 @@ const docTemplate = `{
         },
         "/products": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Возвращает список продуктов с возможностью пагинации. Пользователь должен быть авторизован.",
                 "produces": [
                     "application/json"
@@ -264,7 +259,7 @@ const docTemplate = `{
                 },
                 "id": {
                     "description": "Id продукта",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "images": {
                     "description": "Картинки",

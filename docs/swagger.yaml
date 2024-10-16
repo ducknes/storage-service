@@ -12,7 +12,7 @@ definitions:
         type: string
       id:
         description: Id продукта
-        type: integer
+        type: string
       images:
         description: Картинки
         items:
@@ -149,8 +149,6 @@ paths:
           description: Ошибка запроса или получения списка продуктов
         "401":
           description: Пользователь не авторизован
-      security:
-      - ApiKeyAuth: []
       summary: Получение списка продуктов
       tags:
       - Продукты
