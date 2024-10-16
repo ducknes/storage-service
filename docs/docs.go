@@ -250,7 +250,7 @@ const docTemplate = `{
         "domain.Product": {
             "type": "object",
             "properties": {
-                "brandName": {
+                "brand_name": {
                     "description": "Бренд кроссовок",
                     "type": "string"
                 },
@@ -258,7 +258,7 @@ const docTemplate = `{
                     "description": "Описание модели кроссовка",
                     "type": "string"
                 },
-                "factoryName": {
+                "factory_name": {
                     "description": "Завод изготовитель",
                     "type": "string"
                 },

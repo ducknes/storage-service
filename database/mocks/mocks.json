@@ -1,0 +1,64 @@
+[
+  {
+    "BrandName": "Nike",
+    "FactoryName": "Nike Factory 1",
+    "Name": "Nike Air Max",
+    "Description": "High-quality running sneakers with Air Max cushioning.",
+    "Price": 120.99,
+    "Items": [
+      { "StockCount": 50, "Size": 42, "Weight": 0.9, "Color": "Black" },
+      { "StockCount": 30, "Size": 44, "Weight": 1.0, "Color": "White" }
+    ],
+    "Materials": ["Leather", "Rubber"],
+    "Images": ["https://i.imgur.com/gSmC47V.png"]
+  },
+  {
+    "BrandName": "Adidas",
+    "FactoryName": "Adidas Factory",
+    "Name": "Adidas Ultraboost",
+    "Description": "Premium running shoes with Boost technology.",
+    "Price": 180.50,
+    "Items": [
+      { "StockCount": 40, "Size": 43, "Weight": 0.85, "Color": "Blue" },
+      { "StockCount": 35, "Size": 45, "Weight": 0.9, "Color": "Gray" }
+    ],
+    "Materials": ["Textile", "Rubber"],
+    "Images": ["https://i.imgur.com/2RtisSR.png"]
+  },
+  {
+    "BrandName": "Puma",
+    "FactoryName": "Puma Factory",
+    "Name": "Puma Suede Classic",
+    "Description": "Retro-style sneakers with suede upper.",
+    "Price": 75.00,
+    "Items": [
+      { "StockCount": 25, "Size": 40, "Weight": 0.8, "Color": "Red" }
+    ],
+    "Materials": ["Leather"],
+    "Images": ["https://i.imgur.com/7T0ok4Q.png"]
+  },
+  {
+    "BrandName": "Reebok",
+    "FactoryName": "Reebok Factory",
+    "Name": "Reebok Nano X1",
+    "Description": "Cross-training shoes for all-around performance.",
+    "Price": 130.00,
+    "Items": [
+      { "StockCount": 60, "Size": 41, "Weight": 0.95, "Color": "Green" }
+    ],
+    "Materials": ["Synthetic"],
+    "Images": ["https://i.imgur.com/AibLnbD.png"]
+  },
+  {
+    "BrandName": "New Balance",
+    "FactoryName": "New Balance Factory",
+    "Name": "New Balance 990v5",
+    "Description": "Classic running shoes made in the USA.",
+    "Price": 175.99,
+    "Items": [
+      { "StockCount": 20, "Size": 43, "Weight": 0.88, "Color": "Navy" }
+    ],
+    "Materials": ["Mesh"],
+    "Images": ["https://i.imgur.com/TtizaYP.png"]
+  }
+]

@@ -3,15 +3,15 @@ package domain
 import "github.com/shopspring/decimal"
 
 type Product struct {
-	Id          int             `bson:"id"`          // Id продукта
-	BrandName   string          `bson:"brand_id"`    // Бренд кроссовок
-	FactoryName string          `bson:"factory_id"`  // Завод изготовитель
-	Name        string          `bson:"name"`        // Название модели кроссовка
-	Description string          `bson:"description"` // Описание модели кроссовка
-	Price       decimal.Decimal `bson:"price"`       // Цена продукта
-	Items       []ProductItem   `json:"items"`       // Варианты кроссовок
-	Materials   []string        `json:"materials"`   // Материалы изготовления
-	Images      []string        `json:"images"`      // Картинки
+	Id          int             `json:"id"`           // Id продукта
+	BrandName   string          `json:"brand_name"`   // Бренд кроссовок
+	FactoryName string          `json:"factory_name"` // Завод изготовитель
+	Name        string          `json:"name"`         // Название модели кроссовка
+	Description string          `json:"description"`  // Описание модели кроссовка
+	Price       decimal.Decimal `json:"price"`        // Цена продукта
+	Items       []ProductItem   `json:"items"`        // Варианты кроссовок
+	Materials   []string        `json:"materials"`    // Материалы изготовления
+	Images      []string        `json:"images"`       // Картинки
 }
 
 type ProductItem struct {

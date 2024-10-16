@@ -1,13 +1,13 @@
 definitions:
   domain.Product:
     properties:
-      brandName:
+      brand_name:
         description: Бренд кроссовок
         type: string
       description:
         description: Описание модели кроссовка
         type: string
-      factoryName:
+      factory_name:
         description: Завод изготовитель
         type: string
       id:

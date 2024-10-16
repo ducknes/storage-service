@@ -77,6 +77,12 @@ func (a *App) initMongo() {
 
 func (a *App) initRepositories() {
 	a.storageRepository = database.NewStorageRepository(a.mongo, a.config.Databases.MongoDB.Database, a.config.Databases.MongoDB.Collection)
+
+	if settings.GetEnv() == settings.LocalEnv() && a.config.Databases.NeedMocks {
+		if err := a.storageRepository.TestData(); err != nil {
+			a.logger.Error(err.Error())
+		}
+	}
 }
 
 func (a *App) initServices() {

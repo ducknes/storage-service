@@ -1,8 +1,11 @@
 package database
 
 import (
+	"context"
+	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"os"
 	"storage-service/tools/storagecontext"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,6 +17,8 @@ type StorageRepository interface {
 	AddProducts(ctx storagecontext.StorageContext, products []any) error
 	UpdateProducts(ctx storagecontext.StorageContext, products []Product) error
 	DeleteProducts(ctx storagecontext.StorageContext, productIds []string) error
+
+	TestData() error
 }
 
 type StorageRepositoryImpl struct {
@@ -101,5 +106,21 @@ func (r *StorageRepositoryImpl) DeleteProducts(ctx storagecontext.StorageContext
 	}
 
 	_, err := collection.DeleteMany(ctx.Ctx(), filter)
+	return err
+}
+
+func (r *StorageRepositoryImpl) TestData() error {
+	file, err := os.ReadFile("./database/mocks/mocks.json")
+	if err != nil {
+		return err
+	}
+
+	var products []any
+	if err = json.Unmarshal(file, &products); err != nil {
+		return err
+	}
+
+	collection := r.mongoClient.Database(r.database).Collection(r.collection)
+	_, err = collection.InsertMany(context.Background(), products)
 	return err
 }

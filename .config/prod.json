@@ -3,7 +3,7 @@
     "databases" : {
         "need_mocks" : false,
         "mongo": {
-            "connection" : "mongodb://mongo:ADzBxufCtjtoLgLEKlpAkeaXcYNPYGft@junction.proxy.rlwy.net:38384",
+            "connection" : "mongodb://mongo:pWtHHvfcYSsvZiPJvYIWHPJAYfQEkjgR@autorack.proxy.rlwy.net:11921",
             "database": "storage-service",
             "collection" : "products"
         }
