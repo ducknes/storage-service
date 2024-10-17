@@ -18,18 +18,11 @@ import (
 // @Param products body []domain.Product true "Список продуктов для обновления"
 // @Success 200 "Продукты успешно обновлены"
 // @Failure 400 "Ошибка в запросе или при обновлении продуктов"
-// @Failure 401 "Пользователь не авторизован"
 // @Router /products [put]
-// @Security ApiKeyAuth
 func UpdateProductsHandler(storageService service.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		storageCtx := storagecontext.New(r)
 		storageCtx.SetLogTag("[update-product]")
-
-		if !storageCtx.IsAuthorized() {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
 
 		var products []domain.Product
 		if err := goathttp.ReadRequestJson(r, &products); err != nil {

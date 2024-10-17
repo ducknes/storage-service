@@ -88,10 +88,6 @@ paths:
             $ref: '#/definitions/domain.Product'
         "400":
           description: Ошибка запроса или получения информации о продукте
-        "401":
-          description: Пользователь не авторизован
-      security:
-      - ApiKeyAuth: []
       summary: Получение информации о продукте
       tags:
       - Продукты
@@ -115,10 +111,6 @@ paths:
           description: Продукты успешно удалены
         "400":
           description: Ошибка в запросе или при удалении продуктов
-        "401":
-          description: Пользователь не авторизован
-      security:
-      - ApiKeyAuth: []
       summary: Удаление продуктов
       tags:
       - Продукты
@@ -147,8 +139,6 @@ paths:
             type: array
         "400":
           description: Ошибка запроса или получения списка продуктов
-        "401":
-          description: Пользователь не авторизован
       summary: Получение списка продуктов
       tags:
       - Продукты
@@ -170,10 +160,6 @@ paths:
           description: Продукты успешно добавлены
         "400":
           description: Ошибка в запросе или при добавлении продуктов
-        "401":
-          description: Пользователь не авторизован
-      security:
-      - ApiKeyAuth: []
       summary: Добавление продуктов
       tags:
       - Продукты
@@ -195,16 +181,7 @@ paths:
           description: Продукты успешно обновлены
         "400":
           description: Ошибка в запросе или при обновлении продуктов
-        "401":
-          description: Пользователь не авторизован
-      security:
-      - ApiKeyAuth: []
       summary: Обновление продуктов
       tags:
       - Продукты
-securityDefinitions:
-  Bearer:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

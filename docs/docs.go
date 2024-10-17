@@ -37,11 +37,6 @@ const docTemplate = `{
         },
         "/product": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Возвращает данные о продукте по его идентификатору. Пользователь должен быть авторизован.",
                 "produces": [
                     "application/json"
@@ -68,9 +63,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Ошибка запроса или получения информации о продукте"
-                    },
-                    "401": {
-                        "description": "Пользователь не авторизован"
                     }
                 }
             }
@@ -113,18 +105,10 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Ошибка запроса или получения списка продуктов"
-                    },
-                    "401": {
-                        "description": "Пользователь не авторизован"
                     }
                 }
             },
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Обновляет информацию о продуктах. Пользователь должен быть авторизован.",
                 "consumes": [
                     "application/json"
@@ -153,18 +137,10 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Ошибка в запросе или при обновлении продуктов"
-                    },
-                    "401": {
-                        "description": "Пользователь не авторизован"
                     }
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Добавляет новые продукты в систему. Пользователь должен быть авторизован.",
                 "consumes": [
                     "application/json"
@@ -193,18 +169,10 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Ошибка в запросе или при добавлении продуктов"
-                    },
-                    "401": {
-                        "description": "Пользователь не авторизован"
                     }
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Удаляет продукты из системы по списку идентификаторов. Пользователь должен быть авторизован.",
                 "consumes": [
                     "application/json"
@@ -233,9 +201,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Ошибка в запросе или при удалении продуктов"
-                    },
-                    "401": {
-                        "description": "Пользователь не авторизован"
                     }
                 }
             }
@@ -312,13 +277,6 @@ const docTemplate = `{
                     "type": "number"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }`

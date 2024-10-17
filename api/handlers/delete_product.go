@@ -17,18 +17,11 @@ import (
 // @Param productIds body []string true "Список идентификаторов продуктов для удаления"
 // @Success 200 "Продукты успешно удалены"
 // @Failure 400 "Ошибка в запросе или при удалении продуктов"
-// @Failure 401 "Пользователь не авторизован"
 // @Router /products [delete]
-// @Security ApiKeyAuth
 func DeleteProductsHandler(storageService service.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		storageCtx := storagecontext.New(r)
 		storageCtx.SetLogTag("[delete-product]")
-
-		if !storageCtx.IsAuthorized() {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
 
 		var productIds []string
 		if err := goathttp.ReadRequestJson(r, &productIds); err != nil {

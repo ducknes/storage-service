@@ -17,18 +17,11 @@ import (
 // @Param product_id query string true "Идентификатор продукта"
 // @Success 200 {object} domain.Product "Информация о продукте успешно получена"
 // @Failure 400 "Ошибка запроса или получения информации о продукте"
-// @Failure 401 "Пользователь не авторизован"
 // @Router /product [get]
-// @Security ApiKeyAuth
 func GetProductHandler(storageService service.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		storageCtx := storagecontext.New(r)
 		storageCtx.SetLogTag("[get-product]")
-
-		if !storageCtx.IsAuthorized() {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
 
 		productId := parseProductId(r)
 
