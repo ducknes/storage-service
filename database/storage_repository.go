@@ -3,10 +3,12 @@ package database
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"os"
+	"storage-service/tools/customerror"
 	"storage-service/tools/storagecontext"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -41,9 +43,14 @@ func (r *StorageRepositoryImpl) GetProducts(ctx storagecontext.StorageContext, l
 
 	filter := bson.M{}
 	if cursor != "" {
+		objId, err := primitive.ObjectIDFromHex(cursor)
+		if err != nil {
+			return nil, err
+		}
+
 		filter = bson.M{
 			"_id": bson.M{
-				"$gt": cursor,
+				"$gt": objId,
 			},
 		}
 	}
@@ -72,7 +79,12 @@ func (r *StorageRepositoryImpl) GetProduct(ctx storagecontext.StorageContext, pr
 		"_id": objID,
 	}
 
-	return product, collection.FindOne(ctx.Ctx(), filter).Decode(&product)
+	err = collection.FindOne(ctx.Ctx(), filter).Decode(&product)
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		return product, customerror.NoDocuments
+	}
+
+	return product, err
 }
 
 func (r *StorageRepositoryImpl) AddProducts(ctx storagecontext.StorageContext, products []Product) error {
@@ -96,7 +108,7 @@ func (r *StorageRepositoryImpl) UpdateProducts(ctx storagecontext.StorageContext
 		}
 
 		update := bson.M{
-			"$set": product,
+			"$set": ToInsertItem(product),
 		}
 
 		operations = append(operations, mongo.NewUpdateOneModel().SetFilter(filter).SetUpdate(update))

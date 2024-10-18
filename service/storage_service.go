@@ -31,20 +31,22 @@ func (s *StorageServiceImpl) GetProducts(ctx storagecontext.StorageContext, limi
 		return domain.Products{}, err
 	}
 
+	nextCursor := ""
+	if len(dbProducts) > 0 {
+		nextCursor = dbProducts[len(dbProducts)-1].Id
+	}
+
 	return domain.Products{
 		Items:      mappings.ToDomainProducts(dbProducts),
 		Limit:      limit,
-		NextCursor: dbProducts[len(dbProducts)-1].Id,
+		Cursor:     cursor,
+		NextCursor: nextCursor,
 	}, err
 }
 
 func (s *StorageServiceImpl) GetProduct(ctx storagecontext.StorageContext, productId string) (domain.Product, error) {
 	dbProduct, err := s.storageRepository.GetProduct(ctx, productId)
-	if err != nil {
-		return domain.Product{}, err
-	}
-
-	return mappings.ToDomainProduct(dbProduct), nil
+	return mappings.ToDomainProduct(dbProduct), err
 }
 
 func (s *StorageServiceImpl) SaveProducts(ctx storagecontext.StorageContext, products []domain.Product) error {

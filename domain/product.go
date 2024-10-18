@@ -5,6 +5,7 @@ import "github.com/shopspring/decimal"
 type Products struct {
 	Items      []Product `json:"items"`      // Список продуктов
 	Limit      int64     `json:"limit"`      // Кол-во элементов
+	Cursor     string    `json:"cursor"`     // Текущий курсор
 	NextCursor string    `json:"nextCursor"` // Курсор для запроса след страницы
 }
 

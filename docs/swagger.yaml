@@ -52,6 +52,9 @@ definitions:
     type: object
   domain.Products:
     properties:
+      cursor:
+        description: Текущий курсор
+        type: string
       items:
         description: Список продуктов
         items:
@@ -100,6 +103,8 @@ paths:
           description: Информация о продукте успешно получена
           schema:
             $ref: '#/definitions/domain.Product'
+        "204":
+          description: Информация о продукте отсутствует
         "400":
           description: Ошибка запроса или получения информации о продукте
       summary: Получение информации о продукте

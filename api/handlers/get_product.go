@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"storage-service/service"
+	"storage-service/tools/customerror"
 	"storage-service/tools/goathttp"
 	"storage-service/tools/storagecontext"
 )
@@ -16,6 +18,7 @@ import (
 // @Produce  json
 // @Param product_id query string true "Идентификатор продукта"
 // @Success 200 {object} domain.Product "Информация о продукте успешно получена"
+// @Success 204 "Информация о продукте отсутствует"
 // @Failure 400 "Ошибка запроса или получения информации о продукте"
 // @Router /product [get]
 func GetProductHandler(storageService service.Storage) http.HandlerFunc {
@@ -27,6 +30,11 @@ func GetProductHandler(storageService service.Storage) http.HandlerFunc {
 
 		product, err := storageService.GetProduct(storageCtx, productId)
 		if err != nil {
+			if errors.Is(err, customerror.NoDocuments) {
+				w.WriteHeader(http.StatusNoContent)
+				return
+			}
+
 			storageCtx.Log().Error(fmt.Sprintf("не удалось получить продукт %s, ошибка: %v", productId, err))
 			w.WriteHeader(http.StatusBadRequest)
 			return

@@ -61,6 +61,9 @@ const docTemplate = `{
                             "$ref": "#/definitions/domain.Product"
                         }
                     },
+                    "204": {
+                        "description": "Информация о продукте отсутствует"
+                    },
                     "400": {
                         "description": "Ошибка запроса или получения информации о продукте"
                     }
@@ -281,6 +284,10 @@ const docTemplate = `{
         "domain.Products": {
             "type": "object",
             "properties": {
+                "cursor": {
+                    "description": "Текущий курсор",
+                    "type": "string"
+                },
                 "items": {
                     "description": "Список продуктов",
                     "type": "array",
