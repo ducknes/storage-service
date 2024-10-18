@@ -1,0 +1,292 @@
+[
+  {
+    "BrandName": "TechGadgets",
+    "FactoryName": "GadgetFactory",
+    "Name": "SmartWatch",
+    "Description": "A stylish smartwatch with multiple health tracking features.",
+    "Price": 299.99,
+    "Items": [
+      {
+        "StockCount": 150,
+        "Size": 40,
+        "Weight": 0.05,
+        "Color": "Black"
+      },
+      {
+        "StockCount": 200,
+        "Size": 42,
+        "Weight": 0.06,
+        "Color": "Silver"
+      }
+    ],
+    "Materials": [
+      "Plastic",
+      "Silicon"
+    ],
+    "Images": [
+      "https://example.com/smartwatch_black.jpg",
+      "https://example.com/smartwatch_silver.jpg"
+    ]
+  },
+  {
+    "BrandName": "FashionWear",
+    "FactoryName": "ClothingMakers",
+    "Name": "WinterCoat",
+    "Description": "A warm and stylish winter coat.",
+    "Price": 149.99,
+    "Items": [
+      {
+        "StockCount": 120,
+        "Size": 48,
+        "Weight": 2.0,
+        "Color": "Grey"
+      },
+      {
+        "StockCount": 80,
+        "Size": 50,
+        "Weight": 2.2,
+        "Color": "Black"
+      }
+    ],
+    "Materials": [
+      "Wool",
+      "Polyester"
+    ],
+    "Images": [
+      "https://example.com/wintercoat_grey.jpg",
+      "https://example.com/wintercoat_black.jpg"
+    ]
+  },
+  {
+    "BrandName": "FootMasters",
+    "FactoryName": "ShoeFactory",
+    "Name": "RunningShoes",
+    "Description": "High-quality running shoes designed for comfort and durability.",
+    "Price": 89.99,
+    "Items": [
+      {
+        "StockCount": 300,
+        "Size": 44,
+        "Weight": 0.75,
+        "Color": "Red"
+      },
+      {
+        "StockCount": 250,
+        "Size": 46,
+        "Weight": 0.8,
+        "Color": "Blue"
+      }
+    ],
+    "Materials": [
+      "Mesh",
+      "Rubber"
+    ],
+    "Images": [
+      "https://example.com/runningshoes_red.jpg",
+      "https://example.com/runningshoes_blue.jpg"
+    ]
+  },
+  {
+    "BrandName": "HomeComfort",
+    "FactoryName": "FurnitureMakers",
+    "Name": "Sofa",
+    "Description": "A comfortable and spacious sofa, perfect for family gatherings.",
+    "Price": 499.99,
+    "Items": [
+      {
+        "StockCount": 40,
+        "Size": 220,
+        "Weight": 45.0,
+        "Color": "Brown"
+      },
+      {
+        "StockCount": 30,
+        "Size": 240,
+        "Weight": 50.0,
+        "Color": "Dark Grey"
+      }
+    ],
+    "Materials": [
+      "Leather",
+      "Wood"
+    ],
+    "Images": [
+      "https://example.com/sofa_brown.jpg",
+      "https://example.com/sofa_grey.jpg"
+    ]
+  },
+  {
+    "BrandName": "TechGadgets",
+    "FactoryName": "GadgetFactory",
+    "Name": "WirelessHeadphones",
+    "Description": "Noise-cancelling wireless headphones with superior sound quality.",
+    "Price": 129.99,
+    "Items": [
+      {
+        "StockCount": 500,
+        "Size": 20,
+        "Weight": 0.25,
+        "Color": "Black"
+      },
+      {
+        "StockCount": 450,
+        "Size": 20,
+        "Weight": 0.25,
+        "Color": "White"
+      }
+    ],
+    "Materials": [
+      "Plastic",
+      "Foam"
+    ],
+    "Images": [
+      "https://example.com/headphones_black.jpg",
+      "https://example.com/headphones_white.jpg"
+    ]
+  },
+  {
+    "BrandName": "KitchenPlus",
+    "FactoryName": "ApplianceMakers",
+    "Name": "Blender",
+    "Description": "A high-speed blender ideal for making smoothies and shakes.",
+    "Price": 59.99,
+    "Items": [
+      {
+        "StockCount": 200,
+        "Size": 30,
+        "Weight": 1.5,
+        "Color": "Red"
+      },
+      {
+        "StockCount": 150,
+        "Size": 35,
+        "Weight": 1.7,
+        "Color": "Silver"
+      }
+    ],
+    "Materials": [
+      "Steel",
+      "Plastic"
+    ],
+    "Images": [
+      "https://example.com/blender_red.jpg",
+      "https://example.com/blender_silver.jpg"
+    ]
+  },
+  {
+    "BrandName": "OutdoorGear",
+    "FactoryName": "GearFactory",
+    "Name": "CampingTent",
+    "Description": "A lightweight and durable camping tent for 4 people.",
+    "Price": 199.99,
+    "Items": [
+      {
+        "StockCount": 100,
+        "Size": 300,
+        "Weight": 5.5,
+        "Color": "Green"
+      },
+      {
+        "StockCount": 80,
+        "Size": 350,
+        "Weight": 6.0,
+        "Color": "Blue"
+      }
+    ],
+    "Materials": [
+      "Nylon",
+      "Aluminum"
+    ],
+    "Images": [
+      "https://example.com/tent_green.jpg",
+      "https://example.com/tent_blue.jpg"
+    ]
+  },
+  {
+    "BrandName": "SmartHome",
+    "FactoryName": "SmartFactory",
+    "Name": "SmartLightBulb",
+    "Description": "A smart light bulb with adjustable brightness and color via app.",
+    "Price": 19.99,
+    "Items": [
+      {
+        "StockCount": 1000,
+        "Size": 10,
+        "Weight": 0.1,
+        "Color": "White"
+      },
+      {
+        "StockCount": 900,
+        "Size": 10,
+        "Weight": 0.1,
+        "Color": "RGB"
+      }
+    ],
+    "Materials": [
+      "Glass",
+      "Aluminum"
+    ],
+    "Images": [
+      "https://example.com/smartbulb_white.jpg",
+      "https://example.com/smartbulb_rgb.jpg"
+    ]
+  },
+  {
+    "BrandName": "FitnessPro",
+    "FactoryName": "EquipmentMakers",
+    "Name": "YogaMat",
+    "Description": "A non-slip yoga mat for all types of workouts.",
+    "Price": 29.99,
+    "Items": [
+      {
+        "StockCount": 400,
+        "Size": 180,
+        "Weight": 0.9,
+        "Color": "Purple"
+      },
+      {
+        "StockCount": 350,
+        "Size": 200,
+        "Weight": 1.0,
+        "Color": "Blue"
+      }
+    ],
+    "Materials": [
+      "Foam",
+      "Rubber"
+    ],
+    "Images": [
+      "https://example.com/yogamat_purple.jpg",
+      "https://example.com/yogamat_blue.jpg"
+    ]
+  },
+  {
+    "BrandName": "TechGadgets",
+    "FactoryName": "GadgetFactory",
+    "Name": "Tablet",
+    "Description": "A high-performance tablet with a 10.5-inch screen and 64GB storage.",
+    "Price": 399.99,
+    "Items": [
+      {
+        "StockCount": 200,
+        "Size": 10,
+        "Weight": 0.6,
+        "Color": "Grey"
+      },
+      {
+        "StockCount": 180,
+        "Size": 10,
+        "Weight": 0.6,
+        "Color": "Gold"
+      }
+    ],
+    "Materials": [
+      "Glass",
+      "Aluminum"
+    ],
+    "Images": [
+      "https://example.com/tablet_grey.jpg",
+      "https://example.com/tablet_gold.jpg"
+    ]
+  }
+]

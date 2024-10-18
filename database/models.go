@@ -15,14 +15,14 @@ type Product struct {
 }
 
 type ProductForInsert struct {
-	BrandName   string        `bson:"brand_name" json:"BrandName"`
-	FactoryName string        `bson:"factory_name" json:"FactoryName"`
-	Name        string        `bson:"name" json:"Name"`
-	Description string        `bson:"description" json:"Description"`
-	Price       float64       `bson:"price" json:"Price"`
-	Items       []ProductItem `bson:"items" json:"Items"`
-	Materials   []string      `bson:"materials" json:"Materials"`
-	Images      []string      `bson:"images" json:"Images"`
+	BrandName   string        `bson:"brand_name"`
+	FactoryName string        `bson:"factory_name"`
+	Name        string        `bson:"name"`
+	Description string        `bson:"description"`
+	Price       float64       `bson:"price"`
+	Items       []ProductItem `bson:"items"`
+	Materials   []string      `bson:"materials"`
+	Images      []string      `bson:"images"`
 }
 
 type ProductItem struct {
