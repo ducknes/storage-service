@@ -8,7 +8,7 @@ import (
 )
 
 type Storage interface {
-	GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) ([]domain.Product, error)
+	GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) (domain.Products, error)
 	GetProduct(ctx storagecontext.StorageContext, productId string) (domain.Product, error)
 	SaveProducts(ctx storagecontext.StorageContext, products []domain.Product) error
 	UpdateProducts(ctx storagecontext.StorageContext, products []domain.Product) error
@@ -25,13 +25,17 @@ func NewStorageService(repo database.StorageRepository) Storage {
 	}
 }
 
-func (s *StorageServiceImpl) GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) ([]domain.Product, error) {
+func (s *StorageServiceImpl) GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) (domain.Products, error) {
 	dbProducts, err := s.storageRepository.GetProducts(ctx, limit, cursor)
 	if err != nil {
-		return nil, err
+		return domain.Products{}, err
 	}
 
-	return mappings.ToDomainProducts(dbProducts), err
+	return domain.Products{
+		Items:      mappings.ToDomainProducts(dbProducts),
+		Limit:      limit,
+		NextCursor: dbProducts[len(dbProducts)-1].Id,
+	}, err
 }
 
 func (s *StorageServiceImpl) GetProduct(ctx storagecontext.StorageContext, productId string) (domain.Product, error) {

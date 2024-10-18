@@ -17,7 +17,7 @@ import (
 // @Produce  json
 // @Param limit query int true "Количество продуктов для выборки" default(10)
 // @Param cursor query string false "Курсор для пагинации"
-// @Success 200 {array} domain.Product "Список продуктов успешно получен"
+// @Success 200 {array} domain.Products "Список продуктов успешно получен"
 // @Failure 400 "Ошибка запроса или получения списка продуктов"
 // @Router /products [get]
 func GetProductsHandler(storageService service.Storage) http.HandlerFunc {

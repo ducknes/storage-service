@@ -99,7 +99,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Product"
+                                "$ref": "#/definitions/domain.Products"
                             }
                         }
                     },
@@ -210,7 +210,7 @@ const docTemplate = `{
         "domain.Product": {
             "type": "object",
             "properties": {
-                "brand_name": {
+                "brandName": {
                     "description": "Бренд кроссовок",
                     "type": "string"
                 },
@@ -218,7 +218,7 @@ const docTemplate = `{
                     "description": "Описание модели кроссовка",
                     "type": "string"
                 },
-                "factory_name": {
+                "factoryName": {
                     "description": "Завод изготовитель",
                     "type": "string"
                 },
@@ -268,13 +268,33 @@ const docTemplate = `{
                     "description": "Размер",
                     "type": "integer"
                 },
-                "stock_count": {
+                "stockCount": {
                     "description": "Кол-во на складе",
                     "type": "integer"
                 },
                 "weight": {
                     "description": "Вес",
                     "type": "number"
+                }
+            }
+        },
+        "domain.Products": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "description": "Список продуктов",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Product"
+                    }
+                },
+                "limit": {
+                    "description": "Кол-во элементов",
+                    "type": "integer"
+                },
+                "nextCursor": {
+                    "description": "Курсор для запроса след страницы",
+                    "type": "string"
                 }
             }
         }

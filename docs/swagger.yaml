@@ -1,13 +1,13 @@
 definitions:
   domain.Product:
     properties:
-      brand_name:
+      brandName:
         description: Бренд кроссовок
         type: string
       description:
         description: Описание модели кроссовка
         type: string
-      factory_name:
+      factoryName:
         description: Завод изготовитель
         type: string
       id:
@@ -43,12 +43,26 @@ definitions:
       size:
         description: Размер
         type: integer
-      stock_count:
+      stockCount:
         description: Кол-во на складе
         type: integer
       weight:
         description: Вес
         type: number
+    type: object
+  domain.Products:
+    properties:
+      items:
+        description: Список продуктов
+        items:
+          $ref: '#/definitions/domain.Product'
+        type: array
+      limit:
+        description: Кол-во элементов
+        type: integer
+      nextCursor:
+        description: Курсор для запроса след страницы
+        type: string
     type: object
 info:
   contact: {}
@@ -135,7 +149,7 @@ paths:
           description: Список продуктов успешно получен
           schema:
             items:
-              $ref: '#/definitions/domain.Product'
+              $ref: '#/definitions/domain.Products'
             type: array
         "400":
           description: Ошибка запроса или получения списка продуктов
