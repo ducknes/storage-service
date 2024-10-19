@@ -38,8 +38,8 @@ func (s *StorageServiceImpl) GetProducts(ctx storagecontext.StorageContext, limi
 		return domain.Products{
 			Items:      mappings.ToDomainProducts(cacheProducts),
 			Limit:      limit,
-			Cursor:     "",
-			NextCursor: "",
+			Cursor:     "cached",
+			NextCursor: "from redis",
 		}, err
 	}
 
