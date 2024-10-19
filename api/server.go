@@ -19,6 +19,7 @@ func NewServer(ctx context.Context, logger goatlogger.Logger, cfg settings.Confi
 	router.Use(goathttp.CommonJsonMiddleware, goathttp.CORSMiddleware, goathttp.PanicRecoveryMiddleware(logger))
 
 	router.HandleFunc("/ping", handlers.PingHandler()).Methods(http.MethodGet)
+	router.HandleFunc("/health", handlers.HealthHandler()).Methods(http.MethodGet)
 
 	addProductHandlers(router, storageService)
 	addSwaggerHandler(router)

@@ -10,7 +10,7 @@ RUN mkdir out && \
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o out/app
 
 FROM alpine
-EXPOSE 80
+EXPOSE 8080
 
 RUN apk update && apk add --no-cache tzdata
 
