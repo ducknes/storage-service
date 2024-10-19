@@ -1,0 +1,27 @@
+syntax = "proto3";
+package pbmodels;
+//  protoc --go_out=database  database/pb/products.proto
+option go_package = "pbmodels/pb";
+
+message Product {
+  string Id = 1;
+  string BrandName = 2;
+  string FactoryName = 3;
+  string Name = 4;
+  string Description = 5;
+  float Price = 6;
+  repeated ProductItem Items = 7;
+  repeated string Materials = 8;
+  repeated string Images = 9;
+}
+
+message ProductItem {
+  int32 StockCount = 1;
+  int32 Size = 2;
+  float Weight = 3;
+  string Color = 4;
+}
+
+message MapProducts {
+  map<string, Product> Items = 1;
+}

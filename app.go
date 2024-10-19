@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/GOAT-prod/goatlogger"
 	_ "github.com/lib/pq"
+	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 	"os"
@@ -26,7 +27,9 @@ type App struct {
 	storageService service.Storage
 
 	mongo             *mongo.Client
+	redis             *redis.Client
 	storageRepository database.StorageRepository
+	cacheRepository   database.CacheRepository
 }
 
 func NewApp(ctx context.Context, config settings.Config, logger goatlogger.Logger) *App {
@@ -60,6 +63,7 @@ func (a *App) Stop(ctx context.Context) {
 
 func (a *App) initDatabases() {
 	a.initMongo()
+	a.initRedis()
 }
 
 func (a *App) initMongo() {
@@ -75,8 +79,22 @@ func (a *App) initMongo() {
 	a.mongo = mongoClient
 }
 
+func (a *App) initRedis() {
+	redisCtx, cancelFunc := context.WithTimeout(a.mainCtx, 15*time.Second)
+	defer cancelFunc()
+
+	redisClient, err := database.NewRedisClient(redisCtx, a.config.Databases.Redis)
+	if err != nil {
+		a.logger.Panic(fmt.Sprintf("не удалось подключиться к redis: %v", err))
+		os.Exit(1)
+	}
+
+	a.redis = redisClient
+}
+
 func (a *App) initRepositories() {
 	a.storageRepository = database.NewStorageRepository(a.mongo, a.config.Databases.MongoDB.Database, a.config.Databases.MongoDB.Collection)
+	a.cacheRepository = database.NewCacheRepository(a.redis)
 
 	if settings.GetEnv() == settings.LocalEnv() && a.config.Databases.NeedMocks {
 		if err := a.storageRepository.TestData(); err != nil {
@@ -89,7 +107,7 @@ func (a *App) initRepositories() {
 }
 
 func (a *App) initServices() {
-	a.storageService = service.NewStorageService(a.storageRepository)
+	a.storageService = service.NewStorageService(a.storageRepository, a.cacheRepository)
 }
 
 func (a *App) initServer() {

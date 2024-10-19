@@ -1,6 +1,9 @@
 package database
 
-import "github.com/samber/lo"
+import (
+	"github.com/samber/lo"
+	"storage-service/database/pbmodels/pb"
+)
 
 type Product struct {
 	Id          string        `bson:"_id" json:"Id"`
@@ -48,5 +51,77 @@ func ToInsertItem(product Product) ProductForInsert {
 func ToInsertItems(products []Product) []ProductForInsert {
 	return lo.Map(products, func(item Product, _ int) ProductForInsert {
 		return ToInsertItem(item)
+	})
+}
+
+func ToDatabase(products *pb.MapProducts) []Product {
+	return lo.MapToSlice(products.Items, func(_ string, value *pb.Product) Product {
+		return ToDatabaseProduct(value)
+	})
+}
+
+func ToDatabaseProduct(product *pb.Product) Product {
+	return Product{
+		Id:          product.Id,
+		BrandName:   product.BrandName,
+		FactoryName: product.FactoryName,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       float64(product.Price),
+		Items:       ToDatabaseProductItems(product.Items),
+		Materials:   product.Materials,
+		Images:      product.Images,
+	}
+}
+
+func ToDatabaseProductItem(item *pb.ProductItem) ProductItem {
+	return ProductItem{
+		StockCount: int(item.StockCount),
+		Size:       int(item.Size),
+		Weight:     float64(item.Weight),
+		Color:      item.Color,
+	}
+}
+
+func ToDatabaseProductItems(items []*pb.ProductItem) []ProductItem {
+	return lo.Map(items, func(item *pb.ProductItem, _ int) ProductItem {
+		return ToDatabaseProductItem(item)
+	})
+}
+
+func ToProto(items []Product) *pb.MapProducts {
+	result := &pb.MapProducts{Items: make(map[string]*pb.Product)}
+	for _, item := range items {
+		result.Items[item.Id] = ToProtoProduct(item)
+	}
+	return result
+}
+
+func ToProtoProduct(product Product) *pb.Product {
+	return &pb.Product{
+		Id:          product.Id,
+		BrandName:   product.BrandName,
+		FactoryName: product.FactoryName,
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       float32(product.Price),
+		Items:       ToProtoProductItems(product.Items),
+		Materials:   product.Materials,
+		Images:      product.Images,
+	}
+}
+
+func ToProtoProductItem(item ProductItem) *pb.ProductItem {
+	return &pb.ProductItem{
+		StockCount: int32(item.StockCount),
+		Size:       int32(item.Size),
+		Weight:     float32(item.Weight),
+		Color:      item.Color,
+	}
+}
+
+func ToProtoProductItems(items []ProductItem) []*pb.ProductItem {
+	return lo.Map(items, func(item ProductItem, _ int) *pb.ProductItem {
+		return ToProtoProductItem(item)
 	})
 }

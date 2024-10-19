@@ -1,11 +1,16 @@
 {
-    "port": 80,
-    "databases" : {
-        "need_mocks" : false,
-        "mongo": {
-            "connection" : "mongodb://mongo:pWtHHvfcYSsvZiPJvYIWHPJAYfQEkjgR@autorack.proxy.rlwy.net:11921",
-            "database": "storage-service",
-            "collection" : "products"
-        }
+  "port": 80,
+  "databases": {
+    "need_mocks": false,
+    "mongo": {
+      "connection": "mongodb://mongo:pWtHHvfcYSsvZiPJvYIWHPJAYfQEkjgR@autorack.proxy.rlwy.net:11921",
+      "database": "storage-service",
+      "collection": "products"
+    },
+    "redis": {
+      "address": "",
+      "password": "",
+      "database": ""
     }
+  }
 }
