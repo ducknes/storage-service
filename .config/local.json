@@ -8,8 +8,8 @@
       "collection": "products"
     },
     "redis": {
-      "address": "localhost:6379",
-      "password": "",
+      "address": "redis-16059.c328.europe-west3-1.gce.redns.redis-cloud.com:16059",
+      "password": "kzvTrKutWTBO2v37Hz10x7yOGw2zbdIG",
       "database": 0
     }
   }
