@@ -22,5 +22,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t goatprodhub/storage-service:latest .
+          docker build --platform linux/amd64 -t goatprodhub/storage-service:latest . 
           docker push goatprodhub/storage-service:latest
