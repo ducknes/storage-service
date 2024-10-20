@@ -133,7 +133,15 @@ func (r *StorageRepositoryImpl) DeleteProducts(ctx storagecontext.StorageContext
 		},
 	}
 
-	_, err = collection.DeleteMany(ctx.Ctx(), filter)
+	res, err := collection.DeleteMany(ctx.Ctx(), filter)
+	if err != nil {
+		return err
+	}
+
+	if res.DeletedCount == 0 {
+		return customerror.NoDocumentAffected
+	}
+
 	return err
 }
 

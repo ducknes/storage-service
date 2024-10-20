@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"storage-service/service"
+	"storage-service/tools/customerror"
 	"storage-service/tools/goathttp"
 	"storage-service/tools/storagecontext"
 )
@@ -31,6 +33,11 @@ func DeleteProductsHandler(storageService service.Storage) http.HandlerFunc {
 		}
 
 		if err := storageService.RemoveProducts(storageCtx, productIds); err != nil {
+			if errors.Is(err, customerror.NoDocumentAffected) {
+				w.WriteHeader(http.StatusNotFound)
+				return
+			}
+
 			storageCtx.Log().Error(fmt.Sprintf("не удалось удалить продукт, ошибка: %v", err))
 			w.WriteHeader(http.StatusBadRequest)
 			return

@@ -8,7 +8,7 @@
       "collection": "products"
     },
     "redis": {
-      "address": "redis-16059.c328.europe-west3-1.gce.redns.redis-cloud.com:16059",
+      "address": "redis:6379",
       "password": "kzvTrKutWTBO2v37Hz10x7yOGw2zbdIG",
       "database": 0
     }

@@ -1,4 +1,37 @@
 definitions:
+  domain.AddingProduct:
+    properties:
+      brandName:
+        description: Бренд кроссовок
+        type: string
+      description:
+        description: Описание модели кроссовка
+        type: string
+      factoryName:
+        description: Завод изготовитель
+        type: string
+      images:
+        description: Картинки
+        items:
+          type: string
+        type: array
+      items:
+        description: Варианты кроссовок
+        items:
+          $ref: '#/definitions/domain.ProductItem'
+        type: array
+      materials:
+        description: Материалы изготовления
+        items:
+          type: string
+        type: array
+      name:
+        description: Название модели кроссовка
+        type: string
+      price:
+        description: Цена продукта
+        type: number
+    type: object
   domain.Product:
     properties:
       brandName:
@@ -172,7 +205,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/domain.Product'
+            $ref: '#/definitions/domain.AddingProduct'
           type: array
       responses:
         "200":

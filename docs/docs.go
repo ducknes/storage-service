@@ -161,7 +161,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Product"
+                                "$ref": "#/definitions/domain.AddingProduct"
                             }
                         }
                     }
@@ -210,6 +210,52 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "domain.AddingProduct": {
+            "type": "object",
+            "properties": {
+                "brandName": {
+                    "description": "Бренд кроссовок",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Описание модели кроссовка",
+                    "type": "string"
+                },
+                "factoryName": {
+                    "description": "Завод изготовитель",
+                    "type": "string"
+                },
+                "images": {
+                    "description": "Картинки",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "items": {
+                    "description": "Варианты кроссовок",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.ProductItem"
+                    }
+                },
+                "materials": {
+                    "description": "Материалы изготовления",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Название модели кроссовка",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "Цена продукта",
+                    "type": "number"
+                }
+            }
+        },
         "domain.Product": {
             "type": "object",
             "properties": {

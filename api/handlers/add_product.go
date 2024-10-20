@@ -15,7 +15,7 @@ import (
 // @Description Добавляет новые продукты в систему. Пользователь должен быть авторизован.
 // @Tags Продукты
 // @Accept  json
-// @Param products body []domain.Product true "Список продуктов для добавления"
+// @Param products body []domain.AddingProduct true "Список продуктов для добавления"
 // @Success 200 "Продукты успешно добавлены"
 // @Failure 400 "Ошибка в запросе или при добавлении продуктов"
 // @Router /products [post]
@@ -24,7 +24,7 @@ func AddProductsHandler(storageService service.Storage) http.HandlerFunc {
 		storageCtx := storagecontext.New(r)
 		storageCtx.SetLogTag("[add-product]")
 
-		var products []domain.Product
+		var products []domain.AddingProduct
 		if err := goathttp.ReadRequestJson(r, &products); err != nil {
 			storageCtx.Log().Error(fmt.Sprintf("не удалось распарсить новый продукт, ошибка: %v", err))
 			w.WriteHeader(http.StatusBadRequest)

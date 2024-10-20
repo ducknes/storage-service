@@ -3,13 +3,13 @@
   "databases": {
     "need_mocks": false,
     "mongo": {
-      "connection": "mongodb://mongo:pWtHHvfcYSsvZiPJvYIWHPJAYfQEkjgR@autorack.proxy.rlwy.net:11921",
+      "connection": "mongodb://mongo:27017/?direct=true",
       "database": "storage-service",
       "collection": "products"
     },
     "redis": {
-      "address": "redis-16059.c328.europe-west3-1.gce.redns.redis-cloud.com:16059",
-      "password": "kzvTrKutWTBO2v37Hz10x7yOGw2zbdIG",
+      "address": "redis:6379",
+      "password": "",
       "database": 0
     }
   }

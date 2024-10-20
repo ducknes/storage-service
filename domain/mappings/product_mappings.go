@@ -21,6 +21,19 @@ func ToDbProduct(info domain.Product) database.Product {
 	}
 }
 
+func ToDbAddingProduct(info domain.AddingProduct) database.Product {
+	return database.Product{
+		BrandName:   info.BrandName,
+		FactoryName: info.FactoryName,
+		Name:        info.Name,
+		Description: info.Description,
+		Price:       info.Price.InexactFloat64(),
+		Items:       ToDbProductItems(info.Items),
+		Materials:   info.Materials,
+		Images:      info.Images,
+	}
+}
+
 func ToDomainProduct(info database.Product) domain.Product {
 	return domain.Product{
 		Id:          info.Id,
@@ -38,6 +51,12 @@ func ToDomainProduct(info database.Product) domain.Product {
 func ToDbProducts(products []domain.Product) []database.Product {
 	return lo.Map(products, func(item domain.Product, _ int) database.Product {
 		return ToDbProduct(item)
+	})
+}
+
+func ToDbAddingProducts(products []domain.AddingProduct) []database.Product {
+	return lo.Map(products, func(item domain.AddingProduct, _ int) database.Product {
+		return ToDbAddingProduct(item)
 	})
 }
 

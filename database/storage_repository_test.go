@@ -16,7 +16,7 @@ const (
 
 	_batchSize = 100
 
-	_mongoConnectionString = "mongodb://mongo:pWtHHvfcYSsvZiPJvYIWHPJAYfQEkjgR@autorack.proxy.rlwy.net:11921"
+	_mongoConnectionString = "mongodb://localhost:27017/?direct=true"
 	_mongoDatabaseName     = "storage-service"
 	_mongoCollectionName   = "products"
 
