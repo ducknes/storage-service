@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 services:
   storage-service:
@@ -20,12 +20,6 @@ services:
     networks:
       - app-network
       - dokploy-network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.storage-service.rule=Host(`storage-service-labs.traefik.me`)"
-      - "traefik.http.routers.storage-service.entrypoints=websecure"
-      - "traefik.http.routers.storage-service.tls.certResolver=letsencrypt"
-      - "traefik.http.services.storage-service.loadbalancer.server.port=8080"
 
   mongo:
     image: mongo:5.0

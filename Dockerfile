@@ -17,7 +17,6 @@ RUN apk update && apk add --no-cache tzdata
 WORKDIR /app
 
 COPY --from=build /build/out ./
-RUN ls -la
 RUN chmod +x ./app
 
 ENTRYPOINT ./app
