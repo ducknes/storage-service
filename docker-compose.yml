@@ -4,7 +4,7 @@ services:
   storage-service:
     image: goatprodhub/test-service:latest
     ports:
-      - 80:80 # Порт для доступа к приложению
+      - 8080:80 # Порт для доступа к приложению
     depends_on:
       mongo:
         condition: service_healthy # Ждем, пока Mongo будет готова
