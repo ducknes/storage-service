@@ -22,7 +22,7 @@ services:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.storage-service.rule=Host(`storage-service-213-171-3-85.traefik.me`)"
+      - "traefik.http.routers.storage-service.rule=Host(`storage-service-labs.traefik.me`)"
       - "traefik.http.routers.storage-service.entrypoints=websecure"
       - "traefik.http.routers.storage-service.tls.certResolver=letsencrypt"
       - "traefik.http.services.storage-service.loadbalancer.server.port=8080"
