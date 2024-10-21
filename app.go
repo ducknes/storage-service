@@ -4,10 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/GOAT-prod/goatlogger"
-	_ "github.com/lib/pq"
-	"github.com/redis/go-redis/v9"
-	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 	"os"
 	"storage-service/api"
@@ -15,6 +11,11 @@ import (
 	"storage-service/service"
 	"storage-service/settings"
 	"time"
+
+	"github.com/GOAT-prod/goatlogger"
+	_ "github.com/lib/pq"
+	"github.com/redis/go-redis/v9"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type App struct {
@@ -96,7 +97,7 @@ func (a *App) initRepositories() {
 	a.storageRepository = database.NewStorageRepository(a.mongo, a.config.Databases.MongoDB.Database, a.config.Databases.MongoDB.Collection)
 	a.cacheRepository = database.NewCacheRepository(a.redis)
 
-	if settings.GetEnv() == settings.LocalEnv() && a.config.Databases.NeedMocks {
+	if a.config.Databases.NeedMocks {
 		if err := a.storageRepository.TestData(); err != nil {
 			a.logger.Error(err.Error())
 			return

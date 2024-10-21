@@ -1,7 +1,7 @@
 {
   "port": 8080,
   "databases": {
-    "need_mocks": false,
+    "need_mocks": true,
     "mongo": {
       "connection": "mongodb://mongo:27017/?direct=true",
       "database": "storage-service",
