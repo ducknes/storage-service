@@ -1,17 +1,17 @@
-version: '3.9'
+version: "3.9"
 
 services:
   storage-service:
-    image: goatprodhub/storage-service:latest
+    image: goatprodhub/test-service:latest
     ports:
-      - "8080:8080"  # Порт для доступа к приложению
+      - "8080:8080" # Порт для доступа к приложению
     depends_on:
       mongo:
-        condition: service_healthy  # Ждем, пока Mongo будет готова
+        condition: service_healthy # Ждем, пока Mongo будет готова
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]  # Пинг здоровья приложения (предположим, что у тебя есть такой endpoint)
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Пинг здоровья приложения (предположим, что у тебя есть такой endpoint)
       interval: 30s
       timeout: 10s
       retries: 5
@@ -21,11 +21,11 @@ services:
   mongo:
     image: mongo:5.0
     ports:
-      - "27017:27017"  # Порт для доступа к MongoDB
+      - "27017:27017" # Порт для доступа к MongoDB
     volumes:
       - mongo-data:/data/db
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]  # Проверка готовности Mongo
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"] # Проверка готовности Mongo
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,9 +35,9 @@ services:
   redis:
     image: redis:6.0-alpine
     ports:
-      - "6379:6379"  # Порт Redis
+      - "6379:6379" # Порт Redis
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]  # Проверка готовности Redis
+      test: ["CMD", "redis-cli", "ping"] # Проверка готовности Redis
       interval: 30s
       timeout: 10s
       retries: 5
