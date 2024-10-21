@@ -11,7 +11,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      - ENV=!ENV!
+      - ENV=prod
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Пинг здоровья приложения (предположим, что у тебя есть такой endpoint)
       interval: 30s
