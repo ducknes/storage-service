@@ -5,6 +5,7 @@ COPY . .
 RUN mkdir out && \
     mkdir out/database && \
     mv database/mocks/ out/database/mocks/ && \
+    mv database/storage_repository_test.go out/database && \
     mv .config/ out/
 
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -o out/app
