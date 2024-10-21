@@ -4,12 +4,14 @@ services:
   storage-service:
     image: goatprodhub/test-service:latest
     ports:
-      - "8080:8080" # Порт для доступа к приложению
+      - 8080:8080 # Порт для доступа к приложению
     depends_on:
       mongo:
         condition: service_healthy # Ждем, пока Mongo будет готова
       redis:
         condition: service_healthy
+    environment:
+      - ENV=!ENV!
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Пинг здоровья приложения (предположим, что у тебя есть такой endpoint)
       interval: 30s
@@ -17,11 +19,18 @@ services:
       retries: 5
     networks:
       - app-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.storage-service.rule=Host(`storage-service-213-171-3-85.traefik.me`)"
+      - "traefik.http.routers.storage-service.entrypoints=websecure"
+      - "traefik.http.routers.storage-service.tls.certResolver=letsencrypt"
+      - "traefik.http.services.storage-service.loadbalancer.server.port=8080"
 
   mongo:
     image: mongo:5.0
     ports:
-      - "27017:27017" # Порт для доступа к MongoDB
+      - 27017:27017 # Порт для доступа к MongoDB
     volumes:
       - mongo-data:/data/db
     healthcheck:
@@ -35,7 +44,7 @@ services:
   redis:
     image: redis:6.0-alpine
     ports:
-      - "6379:6379" # Порт Redis
+      - 6379:6379 # Порт Redis
     healthcheck:
       test: ["CMD", "redis-cli", "ping"] # Проверка готовности Redis
       interval: 30s
@@ -50,3 +59,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  dokploy-network:
+    external: true
