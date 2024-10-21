@@ -7,7 +7,7 @@ RUN mkdir out && \
     mv database/mocks/ out/database/mocks/ && \
     mv .config/ out/
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o out/app
+RUN go build -mod vendor -o out/app
 
 FROM alpine
 EXPOSE 8080
