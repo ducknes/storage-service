@@ -7,6 +7,7 @@ type Products struct {
 	Limit      int64     `json:"limit"`      // Кол-во элементов
 	Cursor     string    `json:"cursor"`     // Текущий курсор
 	NextCursor string    `json:"nextCursor"` // Курсор для запроса след страницы
+	FromCache  bool      `json:"fromCache"`  // Из кеша
 }
 
 type Product struct {

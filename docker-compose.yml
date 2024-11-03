@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   storage-service:
-    image: goatprodhub/test-service:latest
+#    image: goatprodhub/test-service:latest
+    build: .
     ports:
       - 8080:8080 # Порт для доступа к приложению
     depends_on:
@@ -19,7 +20,6 @@ services:
       retries: 5
     networks:
       - app-network
-      - dokploy-network
 
   mongo:
     image: mongo:5.0
@@ -53,5 +53,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-  dokploy-network:
-    external: true

@@ -334,6 +334,10 @@ const docTemplate = `{
                     "description": "Текущий курсор",
                     "type": "string"
                 },
+                "fromCache": {
+                    "description": "Из кеша",
+                    "type": "boolean"
+                },
                 "items": {
                     "description": "Список продуктов",
                     "type": "array",

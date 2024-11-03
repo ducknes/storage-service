@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/redis/go-redis/v9"
 	"google.golang.org/protobuf/proto"
 	"storage-service/database/pbmodels/pb"
@@ -14,9 +15,9 @@ const (
 )
 
 type CacheRepository interface {
-	CheckData(ctx storagecontext.StorageContext) bool
-	Get(ctx storagecontext.StorageContext) ([]Product, error)
-	Set(ctx storagecontext.StorageContext, items []Product) error
+	CheckData(ctx storagecontext.StorageContext, limitKey string) bool
+	Get(ctx storagecontext.StorageContext, limitKey string) ([]Product, error)
+	Set(ctx storagecontext.StorageContext, items []Product, limitKey string) error
 }
 
 type CacheRepositoryImpl struct {
@@ -29,8 +30,8 @@ func NewCacheRepository(redisClient *redis.Client) CacheRepository {
 	}
 }
 
-func (c *CacheRepositoryImpl) CheckData(ctx storagecontext.StorageContext) bool {
-	value := c.redisClient.Exists(ctx.Ctx(), _productsKey)
+func (c *CacheRepositoryImpl) CheckData(ctx storagecontext.StorageContext, limitKey string) bool {
+	value := c.redisClient.Exists(ctx.Ctx(), createItemKey(limitKey))
 	exists, err := value.Result()
 	if err != nil {
 		ctx.Log().Error(err.Error())
@@ -40,8 +41,8 @@ func (c *CacheRepositoryImpl) CheckData(ctx storagecontext.StorageContext) bool 
 	return exists == 1
 }
 
-func (c *CacheRepositoryImpl) Get(ctx storagecontext.StorageContext) ([]Product, error) {
-	dataBytes, err := c.redisClient.Get(ctx.Ctx(), _productsKey).Bytes()
+func (c *CacheRepositoryImpl) Get(ctx storagecontext.StorageContext, limitKey string) ([]Product, error) {
+	dataBytes, err := c.redisClient.Get(ctx.Ctx(), createItemKey(limitKey)).Bytes()
 	if err != nil {
 		return nil, err
 	}
@@ -54,11 +55,15 @@ func (c *CacheRepositoryImpl) Get(ctx storagecontext.StorageContext) ([]Product,
 	return ToDatabase(products), nil
 }
 
-func (c *CacheRepositoryImpl) Set(ctx storagecontext.StorageContext, items []Product) error {
+func (c *CacheRepositoryImpl) Set(ctx storagecontext.StorageContext, items []Product, limitKey string) error {
 	value, err := proto.Marshal(ToProto(items))
 	if err != nil {
 		return err
 	}
 
-	return c.redisClient.Set(ctx.Ctx(), _productsKey, value, _defaultTTL).Err()
+	return c.redisClient.Set(ctx.Ctx(), createItemKey(limitKey), value, _defaultTTL).Err()
+}
+
+func createItemKey(limitKey string) string {
+	return fmt.Sprintf("%s:%s", limitKey, _productsKey)
 }

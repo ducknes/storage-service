@@ -3,12 +3,12 @@
   "databases": {
     "need_mocks": true,
     "mongo": {
-      "connection": "mongodb://mongo:27017/?direct=true",
+      "connection": "mongodb://localhost:27017/?direct=true",
       "database": "storage-service",
       "collection": "products"
     },
     "redis": {
-      "address": "redis:6379",
+      "address": "localhost:6379",
       "password": "",
       "database": 0
     }
