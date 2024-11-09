@@ -11,13 +11,14 @@ import (
 
 const (
 	_productsKey = "products-info"
-	_defaultTTL  = 60 * time.Second
+	_defaultTTL  = 10 * time.Minute
 )
 
 type CacheRepository interface {
 	CheckData(ctx storagecontext.StorageContext, limitKey string) bool
 	Get(ctx storagecontext.StorageContext, limitKey string) ([]Product, error)
 	Set(ctx storagecontext.StorageContext, items []Product, limitKey string) error
+	Clear(ctx storagecontext.StorageContext)
 }
 
 type CacheRepositoryImpl struct {
@@ -62,6 +63,29 @@ func (c *CacheRepositoryImpl) Set(ctx storagecontext.StorageContext, items []Pro
 	}
 
 	return c.redisClient.Set(ctx.Ctx(), createItemKey(limitKey), value, _defaultTTL).Err()
+}
+
+func (c *CacheRepositoryImpl) Clear(ctx storagecontext.StorageContext) {
+	var currentCursor uint64
+	for {
+		keys, cursor, err := c.redisClient.Scan(ctx.Ctx(), currentCursor, "*", 100).Result()
+		if err != nil {
+			ctx.Log().Error(fmt.Sprintf("redis scan error: %s", err.Error()))
+			continue
+		}
+
+		currentCursor = cursor
+
+		if len(keys) > 0 {
+			if delErr := c.redisClient.Del(ctx.Ctx(), keys...).Err(); delErr != nil {
+				ctx.Log().Error(fmt.Sprintf("redis del error: %s", delErr.Error()))
+			}
+		}
+
+		if currentCursor == 0 {
+			break
+		}
+	}
 }
 
 func createItemKey(limitKey string) string {

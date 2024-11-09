@@ -70,14 +70,17 @@ func (s *StorageServiceImpl) GetProduct(ctx storagecontext.StorageContext, produ
 }
 
 func (s *StorageServiceImpl) SaveProducts(ctx storagecontext.StorageContext, products []domain.AddingProduct) error {
+	defer s.cacheRepository.Clear(ctx)
 	return s.storageRepository.AddProducts(ctx, mappings.ToDbAddingProducts(products))
 }
 
 func (s *StorageServiceImpl) UpdateProducts(ctx storagecontext.StorageContext, products []domain.Product) error {
+	defer s.cacheRepository.Clear(ctx)
 	return s.storageRepository.UpdateProducts(ctx, mappings.ToDbProducts(products))
 }
 
 func (s *StorageServiceImpl) RemoveProducts(ctx storagecontext.StorageContext, productIds []string) error {
+	defer s.cacheRepository.Clear(ctx)
 	return s.storageRepository.DeleteProducts(ctx, productIds)
 }
 
