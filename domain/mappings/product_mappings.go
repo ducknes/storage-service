@@ -18,6 +18,8 @@ func ToDbProduct(info domain.Product) database.Product {
 		Items:       ToDbProductItems(info.Items),
 		Materials:   info.Materials,
 		Images:      info.Images,
+		Approver:    info.Approver,
+		Status:      string(info.Status),
 	}
 }
 
@@ -31,6 +33,8 @@ func ToDbAddingProduct(info domain.AddingProduct) database.Product {
 		Items:       ToDbProductItems(info.Items),
 		Materials:   info.Materials,
 		Images:      info.Images,
+		Approver:    info.Approver,
+		Status:      string(info.Status),
 	}
 }
 
@@ -45,6 +49,8 @@ func ToDomainProduct(info database.Product) domain.Product {
 		Items:       ToDomainProductItems(info.Items),
 		Materials:   info.Materials,
 		Images:      info.Images,
+		Approver:    info.Approver,
+		Status:      domain.ProductStatus(info.Status),
 	}
 }
 

@@ -20,6 +20,8 @@ type Product struct {
 	Items       []ProductItem   `json:"items"`       // Варианты кроссовок
 	Materials   []string        `json:"materials"`   // Материалы изготовления
 	Images      []string        `json:"images"`      // Картинки
+	Approver    string          `json:"approver"`    // Согласующий
+	Status      ProductStatus   `json:"status"`      // Статус продукта
 }
 
 type AddingProduct struct {
@@ -31,6 +33,8 @@ type AddingProduct struct {
 	Items       []ProductItem   `json:"items"`       // Варианты кроссовок
 	Materials   []string        `json:"materials"`   // Материалы изготовления
 	Images      []string        `json:"images"`      // Картинки
+	Approver    string          `json:"approver"`    // Согласующий
+	Status      ProductStatus   `json:"status"`      // Статус продукта
 }
 
 type ProductItem struct {

@@ -15,6 +15,8 @@ type Product struct {
 	Items       []ProductItem `bson:"items" json:"Items"`
 	Materials   []string      `bson:"materials" json:"Materials"`
 	Images      []string      `bson:"images" json:"Images"`
+	Approver    string        `bson:"approver" json:"Approver"`
+	Status      string        `bson:"status" json:"Status"`
 }
 
 type ProductForInsert struct {
