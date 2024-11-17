@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/GOAT-prod/goatlogger"
-	"github.com/shopspring/decimal"
 	"os"
 	"os/signal"
 	"storage-service/settings"
 	"syscall"
 	"time"
+
+	"github.com/GOAT-prod/goatlogger"
+	"github.com/shopspring/decimal"
 )
 
 // @title storage-service
@@ -34,6 +35,7 @@ func main() {
 	app.initDatabases()
 	app.initRepositories()
 	app.initServices()
+	app.initKafka()
 	app.initServer()
 
 	app.Start()
