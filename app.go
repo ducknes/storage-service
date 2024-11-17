@@ -8,12 +8,13 @@ import (
 	"os"
 	"storage-service/api"
 	"storage-service/database"
+	"storage-service/database/kafka"
 	"storage-service/service"
 	"storage-service/settings"
+	"storage-service/tools/storagecontext"
 	"time"
 
 	"github.com/GOAT-prod/goatlogger"
-	_ "github.com/lib/pq"
 	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -31,6 +32,10 @@ type App struct {
 	redis             *redis.Client
 	storageRepository database.StorageRepository
 	cacheRepository   database.CacheRepository
+
+	kafkaProducer   *kafka.Producer
+	kafkaConsumer   *kafka.Consumer
+	messageHandeler kafka.MessageHandler
 }
 
 func NewApp(ctx context.Context, config settings.Config, logger goatlogger.Logger) *App {
@@ -47,6 +52,8 @@ func (a *App) Start() {
 			a.logger.Error(fmt.Sprintf("приложение неожиданно остановлено, ошибка: %v", err))
 		}
 	}()
+
+	go a.kafkaConsumer.Consume(storagecontext.New(&http.Request{}))
 }
 
 func (a *App) Stop(ctx context.Context) {
@@ -60,6 +67,12 @@ func (a *App) Stop(ctx context.Context) {
 	if err := a.mongo.Disconnect(stopCtx); err != nil {
 		a.logger.Error(fmt.Sprintf("не удалось отключиться от монги: %v", err))
 	}
+
+	if err := a.kafkaConsumer.Stop(); err != nil {
+		a.logger.Error(fmt.Sprintf("не удалось остановить косьюмер: %v", err))
+	}
+
+	a.kafkaProducer.Close()
 }
 
 func (a *App) initDatabases() {
@@ -105,6 +118,29 @@ func (a *App) initRepositories() {
 
 		a.logger.Info("тестовые данные успешно добавлены")
 	}
+}
+
+func (a *App) initKafka() {
+	producer, err := kafka.NewProducer(a.config.Databases.Kafka.Address, a.config.Databases.Kafka.ProducerTopic)
+	if err != nil {
+		a.logger.Panic(fmt.Sprintf("не удалось инициализировать продюсер: %v", err))
+		os.Exit(1)
+	}
+
+	a.kafkaProducer = producer
+	a.messageHandeler = kafka.NewMessageHandler(a.storageRepository, a.kafkaProducer)
+
+	consumer, err := kafka.NewConsumer(
+		a.messageHandeler,
+		a.config.Databases.Kafka.Address,
+		a.config.Databases.Kafka.ConsumerTopic,
+		a.config.Databases.Kafka.ConsumerGroup)
+	if err != nil {
+		a.logger.Panic(fmt.Sprintf("не удалось инициализировать консюмер: %v", err))
+		os.Exit(1)
+	}
+
+	a.kafkaConsumer = consumer
 }
 
 func (a *App) initServices() {

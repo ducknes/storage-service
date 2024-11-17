@@ -11,6 +11,12 @@
       "address": "redis:6379",
       "password": "kzvTrKutWTBO2v37Hz10x7yOGw2zbdIG",
       "database": 0
+    },
+    "kafka": {
+      "address": "localhost:9091,localhost:9092,localhost:9093",
+      "producerTopic": "user-service",
+      "consumerTopic": "storage-service",
+      "consumerGroup": "approve-products"
     }
   }
 }

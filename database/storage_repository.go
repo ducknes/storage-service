@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/samber/lo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -17,7 +18,8 @@ import (
 type StorageRepository interface {
 	GetProducts(ctx storagecontext.StorageContext, limit int64, cursor string) ([]Product, error)
 	GetProduct(ctx storagecontext.StorageContext, productId string) (Product, error)
-	AddProducts(ctx storagecontext.StorageContext, products []Product) error
+	GetProductsByIds(ctx storagecontext.StorageContext, productIds []string) (products []Product, err error)
+	AddProducts(ctx storagecontext.StorageContext, products []Product) ([]string, error)
 	UpdateProducts(ctx storagecontext.StorageContext, products []Product) error
 	DeleteProducts(ctx storagecontext.StorageContext, productIds []string) error
 
@@ -67,6 +69,26 @@ func (r *StorageRepositoryImpl) GetProducts(ctx storagecontext.StorageContext, l
 	return products, collectionCursor.All(ctx.Ctx(), &products)
 }
 
+func (r *StorageRepositoryImpl) GetProductsByIds(ctx storagecontext.StorageContext, productIds []string) (products []Product, err error) {
+	collection := r.mongoClient.Database(r.database).Collection(r.collection)
+
+	objIds, err := toPrimitiveObjectIds(productIds)
+	if err != nil {
+		return nil, err
+	}
+
+	filter := bson.M{"_id": bson.M{"$in": objIds}}
+
+	cursor, err := collection.Find(ctx.Ctx(), filter)
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(ctx.Ctx())
+
+	return products, cursor.All(ctx.Ctx(), &products)
+}
+
 func (r *StorageRepositoryImpl) GetProduct(ctx storagecontext.StorageContext, productId string) (product Product, err error) {
 	collection := r.mongoClient.Database(r.database).Collection(r.collection)
 
@@ -87,10 +109,19 @@ func (r *StorageRepositoryImpl) GetProduct(ctx storagecontext.StorageContext, pr
 	return product, err
 }
 
-func (r *StorageRepositoryImpl) AddProducts(ctx storagecontext.StorageContext, products []Product) error {
+func (r *StorageRepositoryImpl) AddProducts(ctx storagecontext.StorageContext, products []Product) ([]string, error) {
 	collection := r.mongoClient.Database(r.database).Collection(r.collection)
-	_, err := collection.InsertMany(ctx.Ctx(), toAny(ToInsertItems(products)))
-	return err
+	insertedIds, err := collection.InsertMany(ctx.Ctx(), toAny(ToInsertItems(products)))
+
+	if err != nil {
+		return nil, err
+	}
+
+	ids := lo.Map(insertedIds.InsertedIDs, func(id any, _ int) string {
+		return id.(primitive.ObjectID).Hex()
+	})
+
+	return ids, err
 }
 
 func (r *StorageRepositoryImpl) UpdateProducts(ctx storagecontext.StorageContext, products []Product) error {

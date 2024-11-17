@@ -2,7 +2,9 @@ package service
 
 import (
 	"fmt"
+	"github.com/samber/lo"
 	"storage-service/database"
+	"storage-service/database/kafka"
 	"storage-service/domain"
 	"storage-service/domain/mappings"
 	"storage-service/tools/storagecontext"
@@ -19,6 +21,7 @@ type Storage interface {
 type StorageServiceImpl struct {
 	storageRepository database.StorageRepository
 	cacheRepository   database.CacheRepository
+	kafkaProducer     *kafka.Producer
 }
 
 func NewStorageService(repo database.StorageRepository, cache database.CacheRepository) Storage {
@@ -71,7 +74,13 @@ func (s *StorageServiceImpl) GetProduct(ctx storagecontext.StorageContext, produ
 
 func (s *StorageServiceImpl) SaveProducts(ctx storagecontext.StorageContext, products []domain.AddingProduct) error {
 	defer s.cacheRepository.Clear(ctx)
-	return s.storageRepository.AddProducts(ctx, mappings.ToDbAddingProducts(products))
+
+	insertedIds, err := s.storageRepository.AddProducts(ctx, mappings.ToDbAddingProducts(products))
+	if err != nil {
+		return err
+	}
+
+	return s.sendItemsToApprove(ctx, insertedIds)
 }
 
 func (s *StorageServiceImpl) UpdateProducts(ctx storagecontext.StorageContext, products []domain.Product) error {
@@ -91,4 +100,20 @@ func getNextCursor(items []database.Product) string {
 	}
 
 	return nextCursor
+}
+
+func (s *StorageServiceImpl) sendItemsToApprove(ctx storagecontext.StorageContext, ids []string) error {
+	products, err := s.storageRepository.GetProductsByIds(ctx, ids)
+	if err != nil {
+		return err
+	}
+
+	approveProducts := lo.Map(products, func(item database.Product, _ int) database.ApproveMessage {
+		return database.ApproveMessage{
+			ProductId: item.Id,
+			UserId:    item.Approver,
+		}
+	})
+
+	return s.kafkaProducer.Produce(approveProducts)
 }

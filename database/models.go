@@ -3,6 +3,7 @@ package database
 import (
 	"github.com/samber/lo"
 	"storage-service/database/pbmodels/pb"
+	"time"
 )
 
 type Product struct {
@@ -35,6 +36,16 @@ type ProductItem struct {
 	Size       int     `bson:"size" json:"Size"`
 	Weight     float64 `bson:"weight" json:"Weight"`
 	Color      string  `bson:"color" json:"Color"`
+}
+
+type ApproveMessage struct {
+	UserId    string `json:"user_id"`
+	ProductId string `json:"product_id"`
+}
+
+type ApprovedItem struct {
+	ProductId   string    `json:"product_id"`
+	ApproveTime time.Time `json:"approve_time"`
 }
 
 func ToInsertItem(product Product) ProductForInsert {
