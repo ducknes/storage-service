@@ -6,6 +6,7 @@ import (
 	"storage-service/database"
 	"storage-service/domain"
 	"storage-service/tools/storagecontext"
+	"time"
 )
 
 type MessageHandler interface {
@@ -31,6 +32,8 @@ func (h *Impl) HandleMessage(ctx storagecontext.StorageContext, message []byte) 
 	}
 
 	for _, approvedItem := range approvedItems {
+		ctx.Log().Info(fmt.Sprintf("Продукт %s был подтвержден в %s", approvedItem.ProductId, approvedItem.ApproveTime.Format(time.RFC3339)))
+
 		product, err := h.storageRepository.GetProduct(ctx, approvedItem.ProductId)
 		if err != nil {
 			ctx.Log().Error(fmt.Sprintf("не удалось получить продукт из базы: %v", err))
@@ -43,6 +46,8 @@ func (h *Impl) HandleMessage(ctx storagecontext.StorageContext, message []byte) 
 			ctx.Log().Error(fmt.Sprintf("не удалось обновить продукт в базы: %v", err))
 			continue
 		}
+
+		ctx.Log().Info(fmt.Sprintf("Статус продукта %s был обновлен", approvedItem.ProductId))
 	}
 
 	return nil
