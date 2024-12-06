@@ -144,7 +144,7 @@ func (a *App) initKafka() {
 }
 
 func (a *App) initServices() {
-	a.storageService = service.NewStorageService(a.storageRepository, a.cacheRepository)
+	a.storageService = service.NewStorageService(a.storageRepository, a.cacheRepository, a.kafkaProducer)
 }
 
 func (a *App) initServer() {

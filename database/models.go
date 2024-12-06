@@ -18,6 +18,7 @@ type Product struct {
 	Images      []string      `bson:"images" json:"Images"`
 	Approver    string        `bson:"approver" json:"Approver"`
 	Status      string        `bson:"status" json:"Status"`
+	ApproveTime time.Time     `bson:"approve_time"`
 }
 
 type ProductForInsert struct {
@@ -29,6 +30,9 @@ type ProductForInsert struct {
 	Items       []ProductItem `bson:"items"`
 	Materials   []string      `bson:"materials"`
 	Images      []string      `bson:"images"`
+	Approver    string        `bson:"approver"`
+	Status      string        `bson:"status"`
+	ApproveTime time.Time     `bson:"approve_time"`
 }
 
 type ProductItem struct {
@@ -58,6 +62,9 @@ func ToInsertItem(product Product) ProductForInsert {
 		Items:       product.Items,
 		Materials:   product.Materials,
 		Images:      product.Images,
+		Approver:    product.Approver,
+		Status:      product.Status,
+		ApproveTime: product.ApproveTime,
 	}
 }
 

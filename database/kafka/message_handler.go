@@ -41,6 +41,7 @@ func (h *Impl) HandleMessage(ctx storagecontext.StorageContext, message []byte) 
 		}
 
 		product.Status = string(domain.Approved)
+		product.ApproveTime = approvedItem.ApproveTime
 
 		if err = h.storageRepository.UpdateProducts(ctx, []database.Product{product}); err != nil {
 			ctx.Log().Error(fmt.Sprintf("не удалось обновить продукт в базы: %v", err))

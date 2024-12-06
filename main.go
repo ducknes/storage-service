@@ -34,8 +34,8 @@ func main() {
 	app := NewApp(mainCtx, cfg, logger)
 	app.initDatabases()
 	app.initRepositories()
-	app.initServices()
 	app.initKafka()
+	app.initServices()
 	app.initServer()
 
 	app.Start()

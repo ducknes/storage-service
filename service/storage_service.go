@@ -24,10 +24,11 @@ type StorageServiceImpl struct {
 	kafkaProducer     *kafka.Producer
 }
 
-func NewStorageService(repo database.StorageRepository, cache database.CacheRepository) Storage {
+func NewStorageService(repo database.StorageRepository, cache database.CacheRepository, producer *kafka.Producer) Storage {
 	return &StorageServiceImpl{
 		storageRepository: repo,
 		cacheRepository:   cache,
+		kafkaProducer:     producer,
 	}
 }
 
